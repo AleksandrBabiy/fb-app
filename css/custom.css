@@ -1,0 +1,17 @@
+.md-headline {
+  font-size: 20px;
+}
+.md-toolbar-tools .md-avatar {
+	background-color: white;
+	float: right;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+.md-toolbar-tools .md-button span{
+	margin-top: 12px;
+	margin-left: 5px;
+    float: left;
+}
+md-dialog {
+	width: 400px;
+}
