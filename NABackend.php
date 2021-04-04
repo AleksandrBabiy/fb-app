@@ -2,12 +2,12 @@
 
 	/***************************************************************************************
 	 * NABackend
-	 * 
+	 *
 	 * In order to use this file, please include it on your 'index.php' file:
 	 *
 	 *		include_once 'NABackend.php';
 	 *
-	 * Import the given database and 
+	 * Import the given database and
 	 * change the following four (4) lines to match your database settings
 	 *
 	 ***************************************************************************************/
@@ -16,36 +16,36 @@
 	 * Database server
 	 */
 	$DB_SERVER   = 'localhost';
-	
+
 	/**
 	 * Database username
-	 */ 
-	$DB_USERNAME = '';
-	
+	 */
+	$DB_USERNAME = 'c4_test_dev05';
+
 	/**
 	 * Database password
-	 */ 
-	$DB_PASSWORD = '';
-	
+	 */
+	$DB_PASSWORD = 'HCCzxRjR44NdWjPHV7Fc';
+
 	/**
 	 * Database name
-	 */ 
-	$DB_DATABASE = 'test';
+	 */
+	$DB_DATABASE = 'c4_test_dev05';
 
 	/***************************************************************************************
 	 * 										API 										   *
 	 ***************************************************************************************
-	 * 
+	 *
 	 * 	Get all accounts: 					?function=get&data=all
-	 * 
+	 *
 	 *  Get single account: 				?function=get&data={id}
-	 * 
+	 *
 	 *  Insert account: 					?function=insert  			// Passing JSON data through POST (field name: data)
 	 * 																	// { "data" : {"email" : "info@netaffinity.com", "title" : "This is a title"} }
-	 * 
+	 *
 	 * 	Update account:						?function=update&data={id}	// Passing JSON data through POST (field name: data)
 	 * 																	// { "data" : {"email" : "info@netaffinity.com", "title" : "This is a title"} }
-	 * 
+	 *
 	 *  Delete account:						?function=delete&data={id}
 	 */
 
@@ -53,10 +53,10 @@
 	 ***************************************************************************************
 	 *                      DO NOT CHANGE THE CODE BELOW THIS LINE						   *
 	 *                       MAKE NOTES TO RECOMMEND CHANGES ONLY						   *
-	 *************************************************************************************** 
+	 ***************************************************************************************
 	 ***************************************************************************************/
 
-	$NABackend  = new NABackend($DB_SERVER, $DB_USERNAME, $DB_PASSWORD, $DB_DATABASE); 
+	$NABackend  = new NABackend($DB_SERVER, $DB_USERNAME, $DB_PASSWORD, $DB_DATABASE);
 
 	$params = array();
 
@@ -78,11 +78,11 @@
 			case 'insert':
 				if (isset($_POST['data']))
 					$NABackend->insertAccount(json_encode(array('data' => $_POST['data'])));
-				
+
 				$NABackend->setError("Insert Account: No data received");
 				break;
 			case 'update':
-				if (isset($_POST['data']) && isset($params[2])) 
+				if (isset($_POST['data']) && isset($params[2]))
 					$NABackend->updateAccount((int)$params[2], json_encode(array('data' => $_POST['data'])));
 
 
@@ -90,7 +90,7 @@
 				if (!isset($_POST['data'])) $NABackend->setError("Update Account: Not enough data received");
 				break;
 			case 'delete':
-				if (isset($params[2])) 
+				if (isset($params[2]))
 					$NABackend->deleteAccount((int)$params[2]);
 
 				if (!isset($params[2])) $NABackend->setError("Delete Account: Missing arguments");
@@ -100,41 +100,41 @@
 				break;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @package default
 	 */
 	class NABackend{
 
 		/**
 		 * Database connection
-		 */ 
+		 */
 		protected $conn;
 
 		/**
 		 * Database server
-		 */ 
+		 */
 		private $server;
 
 		/**
 		 * Database username
-		 */ 
+		 */
 		private $username;
 
 		/**
 		 * Database password
-		 */ 
+		 */
 		private $password;
 
 		/**
 		 * Database name
-		 */ 
+		 */
 		private $database;
 
 		/**
 		 * Main table used for this test
-		 */ 
+		 */
 		private $tableName;
 
 		/**
@@ -145,7 +145,7 @@
 			$this->conn      = null;
 			$this->tableName = "accounts";
 
-			if( !(is_null($server) || is_null($username) || is_null($password) || is_null($database)) && 
+			if( !(is_null($server) || is_null($username) || is_null($password) || is_null($database)) &&
 			    !(empty($server)   || empty($username)   || empty($database)) ) {
 				$this->set_connection($server, $username, $password, $database);
 			}else{
@@ -155,10 +155,10 @@
 
         /**
          * Function to setup database variables
-         * @param type $server 
-         * @param type $username 
-         * @param type $password 
-         * @param type $database 
+         * @param type $server
+         * @param type $username
+         * @param type $password
+         * @param type $database
          */
         private function set_connection($server, $username, $password, $database){
         	$this->server   = $server;
@@ -188,12 +188,12 @@
          * Function to close database connection
          */
         private function close_connection(){
-            pg_close($this->conn);            
+            pg_close($this->conn);
         }
 
         /**
          * Function to check if the connection is stablished or not
-         * 
+         *
          * @return bool Whether the connection is stablished or not
          */
         private function is_connected(){
@@ -202,9 +202,9 @@
 
         /**
          * Function to execute a query on the database
-         * 
+         *
          * @param String $sql SQL sentence to execute
-         * 
+         *
          * @return Array Result of the given SQL
          */
         private function query($sql){
@@ -229,10 +229,10 @@
 
         /**
          * Function to execute a SQL sentence
-         * 
+         *
          * @param String $sql SQL sentence to execute
          * @param bool $affected_rows Whether to return affected rows or not
-         * 
+         *
          * @return int Number of rows affected / New ID inserted
          */
         private function execute($sql, $affected_rows = true){
@@ -240,8 +240,8 @@
 
         	$result = -1;
 
-        	if($this->is_connected()){			
-                $ret = pg_query($this->conn, $sql);
+        	if($this->is_connected()){
+				$ret = pg_query($this->conn, $sql);
                 $insert_row = pg_fetch_row($ret);
 
 				$result = ($affected_rows) ? pg_affected_rows($ret) : $insert_row[0];
@@ -255,7 +255,7 @@
 
         /**
          * Function to get all accounts available
-         * 
+         *
          * @return JSON All accout data
          */
         public function getAccounts(){
@@ -267,9 +267,9 @@
 
         /**
          * Function to get a single account (based on given ID)
-         * 
+         *
          * @param int $id Account ID
-         * 
+         *
          * @return JSON Account data for selected ID
          */
         public function getAccount($id){
@@ -281,9 +281,9 @@
 
         /**
          * Function to insert a new account
-         * 
+         *
          * @param JSON $data Data to be inserted
-         * 
+         *
          * @return int New account's ID
          */
         public function insertAccount($data){
@@ -304,7 +304,7 @@
 					}
 				}
 
-				$sql .= ") VALUES (" . $values . ") RETURNING id;";				
+				$sql .= ") VALUES (" . $values . ") RETURNING id;";
 	        	$result = $this->execute($sql, false);
 
         		echo json_encode($result);
@@ -316,15 +316,15 @@
 
         /**
          * Function to update an existing account
-         * 
+         *
          * @param int $id Account ID
          * @param JSON $data Data to be updated
-         * 
+         *
          * @return int Number of rows affected
          */
         public function updateAccount($id, $data){
             $data = json_decode($data, true);
-            
+
 			$result = -1;
 
 			if (is_null($id) || !is_int($id)) $this->setError("Update Account: Account not valid");
@@ -337,14 +337,14 @@
 						$sql .= $key . " =  '". pg_escape_string($value)."'" ;
 
 						if (!($data['data'][$key] === end($data['data']))) {
-							$sql    .= ", "; 
+							$sql    .= ", ";
 						}
 					}
 				}
                 $sql .= " WHERE id = " . $id;
 
         		$result = $this->execute($sql);
-        		
+
         		echo json_encode($result);
         		die();
 			}
@@ -354,9 +354,9 @@
 
         /**
          * Function to delete an existing account
-         * 
+         *
          * @param int $id Account ID
-         * 
+         *
          * @return int Number of rows affected
          */
         public function deleteAccount($id){
@@ -368,9 +368,9 @@
 
         /**
          * Function to return an error message
-         * 
+         *
          * @param String $msg Error message
-         * 
+         *
          * @return JSON Error message
          */
         public function setError($msg){

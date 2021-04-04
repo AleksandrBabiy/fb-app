@@ -1,23 +1,43 @@
 <md-dialog>
-  <form ng-cloak>
+  <form ng-cloak novalidate name="accountForm">
 
     <md-dialog-content>
       <div class="md-dialog-content">
         <md-input-container class="md-block" flex>
             <label>Title*</label>
-            <input>
+            <input ng-model="account.title" name="title" required>
+
+            <div ng-messages="accountForm.title.$error">
+                <div ng-if="accountForm.title.$error.required" ng-message="required">This is required.</div>
+            </div>
         </md-input-container>
+
         <md-input-container class="md-block" flex>
             <label>Facebook Page Name/ID*</label>
-            <input>
+            <input ng-model="account.username" name="username" required>
+
+            <div ng-messages="accountForm.username.$error">
+                <div ng-if="accountForm.username.$error.required" ng-message="required">This is required.</div>
+            </div>
         </md-input-container>
+
         <md-input-container class="md-block" flex>
             <label>Phone</label>
-            <input>
+            <input ng-model="account.phone">
         </md-input-container>
+
         <md-input-container class="md-block" flex>
             <label>Email*</label>
-            <input type="email">
+            <input ng-model="account.email" name="email" type="email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
+
+            <div ng-messages="accountForm.email.$error" role="alert">
+                <div ng-if="accountForm.email.$error.required || accountForm.email.$error.minlength ||
+                            accountForm.email.$error.maxlength || accountForm.email.$error.pattern"
+                     ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']"
+                >
+                    Your email must be between 10 and 100 characters long and look like an e-mail address.
+                </div>
+            </div>
         </md-input-container>
       </div>
     </md-dialog-content>
@@ -27,7 +47,7 @@
       <md-button ng-click="cancel()">
         Cancel
       </md-button>
-      <md-button ng-click="hide()">
+      <md-button ng-click="id ? updateAccount() : createAccount()">
         Save
       </md-button>
     </md-dialog-actions>

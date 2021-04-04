@@ -1,17 +1,34 @@
 .md-headline {
   font-size: 20px;
 }
+
 .md-toolbar-tools .md-avatar {
 	background-color: white;
 	float: right;
 	margin-left: 10px;
 	margin-right: 5px;
 }
-.md-toolbar-tools .md-button span{
+
+.md-toolbar-tools .md-button span {
 	margin-top: 12px;
 	margin-left: 5px;
     float: left;
 }
+
 md-dialog {
 	width: 400px;
+}
+
+md-toast.md-top.md-right {
+	background: transparent;
+	top: 20px;
+	right: 20px;
+}
+
+md-toast.success .md-toast-content {
+	background: green;
+}
+
+md-toast.error .md-toast-content {
+	background: red;
 }
